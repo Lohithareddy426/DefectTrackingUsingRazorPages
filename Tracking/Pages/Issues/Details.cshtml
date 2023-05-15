@@ -1,0 +1,51 @@
+﻿@page "{id:int}"
+@using Tracking.Models.Extensions;
+@model Tracking.Pages.Issues.DetailsModel
+@{
+}
+
+<div class="mt-5"> 
+    @if(Model.Issue == null)
+    {
+        <div class="alert alert-warning" role="alert"> Issue not found</div>
+    }else
+    {
+        <div>
+        <h5>@Model.Issue.Title </h5>    
+        <div class="">
+                <span class=" badge bg-info">@Model.Issue.IssueType </span>
+                <span class="@Model.Issue.Priority.ToCSSClass()">@Model.Issue.Priority </span>
+                <span class=" badge bg-info">@Model.Issue.CreatedOn </span>
+        </div>
+        <div>
+              <p> @Model.Issue.Description  </p>    
+        </div>
+        <button id="resolvebutton" type="submit" data-issueId="@Model.Issue.Id" class="btn btn-primary btn-lg">Resolve</button>
+        </div>        
+    }
+
+</div>
+
+@section scripts{
+    <script>
+        $(function(){
+            var resolvebtn = document.getElementById('resolvebutton')
+                
+            resolvebtn.addEventListener('click', function(e){
+
+                e.preventDefault()
+
+                var issueId = resolvebtn.getAttribute('data-issueId')
+
+
+                $.get(`?handler=resolve&id=${issueId}`, function () {
+
+                    alert(`Issue ${issueId} has been resolved`);
+                    window.location.href='/'
+                })
+            });
+
+        });
+    </script>
+
+}

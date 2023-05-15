@@ -1,0 +1,46 @@
+﻿@page
+@using Tracking.Models.Extensions;
+@model IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="mt-5">
+    <p> Hi @Model.Name </p>
+
+    <a asp-page="/Issues/New" class="btn-outline-primary">+ Add new page </a>
+
+    @if (Model.Issues.Count() == 0)
+    {
+        <p class="text-center text-dark"> No Data to dispaly </p>
+    }
+    else
+    {
+        <div class="row g-0">
+            @foreach (var Issue in Model.Issues)
+            {
+                <div class="card text-center">
+
+                    <div class="card-header">
+                       @Issue.IssueType
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-page="/Issues/Details" asp-route-id="@Issue.Id" class="link-dark text-decoration-none" >@Issue.Title </a>
+                        </h5>
+                        <span class="@Issue.Priority.ToCSSClass()"> @Issue.Priority</span>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        <small>@Issue.CreatedOn</small>
+                    </div>
+
+                </div>
+            }
+        </div>
+    }
+    
+
+
+</div>
